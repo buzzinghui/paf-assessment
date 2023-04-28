@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<h1 th:text="${brewery.name}">Brewery Name</h1>
+<table th:if="${not #lists.isEmpty(brewery)}">
+	<tr>
+		<td>
+			<table style="visibility: visible;">
+				<tr>
+					<a href="/beer/style">Back</a>
+				</tr>
+				<tr>
+					<td>Description</td>
+					<td th:text="${brewery.description}"></td>
+				</tr>
+				<tr>
+					<td>Address</td>
+					<td>
+						<p th:text="${brewery.address1}"></p>
+						<p th:text="${brewery.address2}"></p>
+					</td>
+				</tr>
+				<tr>
+					<td>Phone</td>
+					<td th:text="${brewery.phone}"></td>
+				</tr>
+				<tr>
+					<td>Website</td>
+					<td>
+						<a th:href="${brewery.website}" target="_blank" th:text="${brewery.website}"></a>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+<br>
+<h3>Beers</h3>
+<table border="1">
+	<thead>
+	<tr>
+		<th>Name</th>
+		<th>Description</th>
+		<th>Quantity</th>
+	</tr>
+	</thead>
+	<tbody>
+	<form method="post" th:action="@{/brewery/{breweryId}/order(breweryId=${brewery.breweryId})}" enctype="application/x-www-form-urlencoded">
+		<tr th:each="beer : ${brewery.beers}">
+			<td th:text="${beer.beerName}"></td>
+			<td th:text="${beer.beerDescription}"></td>
+			<td>
+				<input type="number" name="beerQuantities" min="0">
+				<input type="hidden" name="beerIds" th:value="${beer.beerId}">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				<button type="submit">Place Order</button>
+			</td>
+		</tr>
+	</form>
+	</tbody>
+</table>
+<br>
+<p th:if="${#lists.isEmpty(brewery)}">Brewery not found</p>
+</body>
+</html>

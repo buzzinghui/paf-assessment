@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title th:text="${styleName}">Beers</title>
+</head>
+<body>
+
+<h1 th:text="${styleName}">Beers</h1>
+
+<a href="/beer/style">Back</a>
+
+<table border="1" th:if="${not #lists.isEmpty(beers)}">
+	<thead>
+	<tr>
+		<th>Beer Name</th>
+		<th>Beer Description</th>
+		<th>Brewer Name</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr th:each="beer: ${beers}">
+		<td>
+			<span th:text="${beer.beerName}"></span>
+		</td>
+		<td>
+			<span th:text="${beer.beerDescription}"></span>
+		</td>
+		<td>
+			<a data-th-href="@{/beer/brewery/{id}?styleId={styleId}&styleName={styleName}(id=*{beer.breweryId}, styleId=${styleId}, styleName=${styleName})}">
+				<span th:text="${beer.breweryName}"></span>
+			</a>
+		</td>
+	</tr>
+	</tbody>
+</table>
+
+<p th:if="${#lists.isEmpty(beers)}">No beers found for this style</p>
+
+
+</body>
+</html>
